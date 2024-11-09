@@ -27,7 +27,8 @@
             iframe.height = "492";
             iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
             iframe.frameborder = "0";
-            iframe.controls="2";
+            iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+            iframe.allowFullscreen = true;
 
             // Add iframe to the container
             document.getElementById("video-container").appendChild(iframe);
