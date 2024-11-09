@@ -19,12 +19,14 @@
 
         // Get 'video' parameter from URL
         const videoId = getQueryParam("video");
+        const w = getQueryParam("w")
+        const h = getQueryParam("h")
 
         if (videoId) {
             // Create iframe with YouTube embed link
             const iframe = document.createElement("iframe");
-            iframe.width = "1004";
-            iframe.height = "492";
+            iframe.width = `${w}`;
+            iframe.height = `${h}`;
             iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
             iframe.frameborder = "0";
             iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
