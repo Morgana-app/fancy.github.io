@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Viewer</title>
+</head>
+<body>
+    <div id="video-container">
+        <!-- YouTube iframe will be inserted here -->
+    </div>
+
+    <script>
+        // Function to get query parameter by name
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Get 'video' parameter from URL
+        const videoId = getQueryParam("video");
+
+        if (videoId) {
+            // Create iframe with YouTube embed link
+            const iframe = document.createElement("iframe");
+            iframe.width = "560";
+            iframe.height = "315";
+            iframe.src = `https://www.youtube.com/embed/${videoId}`;
+            iframe.title = "YouTube video player";
+            iframe.frameborder = "0";
+            iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+            iframe.allowFullscreen = true;
+
+            // Add iframe to the container
+            document.getElementById("video-container").appendChild(iframe);
+        } else {
+            // If no video ID is present, show a message or default content
+            document.getElementById("video-container").innerText = "No video selected.";
+        }
+    </script>
+</body>
+</html>
