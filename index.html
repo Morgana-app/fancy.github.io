@@ -17,16 +17,27 @@
             return urlParams.get(param);
         }
 
-        // Get 'video' parameter from URL
+        // Function to limit values to a specific range
+        function clamp(value, min, max) {
+            return Math.min(Math.max(value, min), max);
+        }
+
+        // Get 'video', 'width', and 'height' parameters from URL
         const videoId = getQueryParam("video");
+        const widthParam = parseInt(getQueryParam("width"), 10);
+        const heightParam = parseInt(getQueryParam("height"), 10);
+
+        // Set default dimensions with limits
+        const iframeWidth = clamp(widthParam || 1004, 200, 1920);
+        const iframeHeight = clamp(heightParam || 488, 200, 1080);
 
         if (videoId) {
             // Create iframe with YouTube embed link
             const iframe = document.createElement("iframe");
-            iframe.width = "1004";
-            iframe.height = "488";
+            iframe.width = iframeWidth;
+            iframe.height = iframeHeight;
             iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
-            iframe.frameborder = "0";
+            iframe.frameBorder = "0";
             iframe.allowFullscreen = true;
 
             // Add iframe to the container
@@ -38,3 +49,4 @@
     </script>
 </body>
 </html>
+
