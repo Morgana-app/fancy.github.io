@@ -22,29 +22,43 @@
             return Math.min(Math.max(value, min), max);
         }
 
-        // Get 'video', 'width', and 'height' parameters from URL
+        // Get 'video', 'playlist', 'width', and 'height' parameters from URL
         const videoId = getQueryParam("video");
+        const playlistId = getQueryParam("playlist");
         const widthParam = parseInt(getQueryParam("width"), 10);
         const heightParam = parseInt(getQueryParam("height"), 10);
 
         // Set default dimensions with limits
-        const iframeWidth = clamp(widthParam || 1004, 200, 1920);
-        const iframeHeight = clamp(heightParam || 488, 200, 1080);
+        const iframeWidth = clamp(widthParam || 640, 200, 1920); // Default 640px, range: 200–1920
+        const iframeHeight = clamp(heightParam || 360, 200, 1080); // Default 360px, range: 200–1080
 
-        if (videoId) {
-            // Create iframe with YouTube embed link
+        // Construct the embed URL based on the parameters
+        let embedUrl = null;
+        if (playlistId) {
+            embedUrl = `https://www.youtube-nocookie.com/embed/videoseries?list=${playlistId}`;
+            if (videoId) {
+                // Include the video ID in the playlist and autoplay starting from it
+                embedUrl += `&v=${videoId}`;
+            }
+            embedUrl += `&autoplay=1`;
+        } else if (videoId) {
+            embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
+        }
+
+        if (embedUrl) {
+            // Create iframe with the embed link
             const iframe = document.createElement("iframe");
             iframe.width = iframeWidth;
             iframe.height = iframeHeight;
-            iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
+            iframe.src = embedUrl;
             iframe.frameBorder = "0";
             iframe.allowFullscreen = true;
 
             // Add iframe to the container
             document.getElementById("video-container").appendChild(iframe);
         } else {
-            // If no video ID is present, show a message or default content
-            document.getElementById("video-container").innerText = "No video selected.";
+            // If no video or playlist ID is present, show a message
+            document.getElementById("video-container").innerText = "No video or playlist selected.";
         }
     </script>
 </body>
